@@ -80,8 +80,11 @@ def discharge_tokenize(text):
     sents = []
     for segment in segments:
         s = nltk.sent_tokenize(segment)
+        s = [sent.replace('\n', ' ') for sent in s]
+        s = [re.sub(r'-([A-Za-z])', r'- \1', sent) for sent in s]
+        s = [re.sub(r'([A-Za-z]): ', r'\1 : ', sent) for sent in s]
+        s = [re.sub(r'([A-Za-z]), ', r'\1 , ', sent) for sent in s]
         sents += s
-    
 
     # put the PHI back
     for i in range(len(sents)):
